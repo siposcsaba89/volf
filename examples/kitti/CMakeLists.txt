@@ -11,12 +11,23 @@ set(CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL MINSIZEREL RELEASE)
 # use folders in ides which support it
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
+
+find_package(OpenCV REQUIRED CONFIG)
+
+add_executable(${PROJECT_NAME}
+    ${PROJECT_NAME}.cpp
+    kitti_reader.h
+    kitti_reader.cpp
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     DEBUG_POSTFIX _d
     RELWITHDEBINFO_POSTFIX _rd
     MINSIZEREL_POSTFIX _mr
     FOLDER examples
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${OpenCV_LIBRARIES}
 )
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
